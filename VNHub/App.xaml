@@ -1,0 +1,23 @@
+﻿<Application x:Class="VNHub.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:VNHub"
+             xmlns:viewModel="clr-namespace:VNHub.MVVM.ViewModel"
+             xmlns:view="clr-namespace:VNHub.MVVM.View"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemeResources />
+                <ui:XamlControlsResources />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModel:ProjectViewModel}">
+                <view:ProjectView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:LearnViewModel}">
+                <view:LearnView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
