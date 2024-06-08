@@ -9,7 +9,7 @@ namespace VNHub.MVVM.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
-        public ProjectViewModel ProjectVM { get; set; }
+        public ProjectsViewModel ProjectVM { get; set; }
         public LearnViewModel LearnVM { get; set; }
 
         public RelayCommand ProjectViewCommand { get; set; }
@@ -30,7 +30,7 @@ namespace VNHub.MVVM.ViewModel
 
         public MainViewModel()
         {
-            ProjectVM = new ProjectViewModel();
+            ProjectVM = new ProjectsViewModel();
             LearnVM = new LearnViewModel();
             _currentView = ProjectVM;
             ProjectViewCommand = new RelayCommand(o =>

@@ -12,8 +12,8 @@
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate DataType="{x:Type viewModel:ProjectViewModel}">
-                <view:ProjectView/>
+            <DataTemplate DataType="{x:Type viewModel:ProjectsViewModel}">
+                <view:ProjectsView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:LearnViewModel}">
                 <view:LearnView/>
