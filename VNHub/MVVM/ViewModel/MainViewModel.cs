@@ -11,7 +11,6 @@ namespace VNHub.MVVM.ViewModel
     {
         public ProjectsViewModel ProjectVM { get; set; }
         public LearnViewModel LearnVM { get; set; }
-
         public RelayCommand ProjectViewCommand { get; set; }
         public RelayCommand LearnViewCommand { get; set; }
 
@@ -30,9 +29,14 @@ namespace VNHub.MVVM.ViewModel
 
         public MainViewModel()
         {
+            // Constructing ViewModels
             ProjectVM = new ProjectsViewModel();
             LearnVM = new LearnViewModel();
+
+            // Default VM
             _currentView = ProjectVM;
+
+            //RelayCommands
             ProjectViewCommand = new RelayCommand(o =>
             {
                 CurrentView = ProjectVM;

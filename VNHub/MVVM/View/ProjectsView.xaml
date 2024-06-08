@@ -11,6 +11,14 @@
     <UserControl.DataContext>
         <viewModel:ProjectsViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ColorPaletteResources Accent="#FF0078D7" />
+                <ResourceDictionary Source="pack://application:,,,/ModernWpf;component/ControlsResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
@@ -31,7 +39,8 @@
                     Margin="5"/>
             <Button Content="Create"
                     VerticalAlignment="Top"
-                    Margin="5"/>
+                    Margin="5"
+                    Style="{StaticResource AccentButtonStyle}"/>
         </StackPanel>
         
     </Grid>

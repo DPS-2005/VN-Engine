@@ -10,6 +10,8 @@ namespace VNHub.MVVM.ViewModel
     public class ProjectsViewModel : ObservableObject
     {
         public ObservableCollection<Project> Projects;
+        public ProjectCreationViewModel ProjectCreationVM { get; set; }
+        public RelayCommand CreateProjectCommand;
         
         public ProjectsViewModel()
         {
@@ -22,6 +24,13 @@ namespace VNHub.MVVM.ViewModel
             {
                 Projects = new ObservableCollection<Project>();
             }
+
+            ProjectCreationVM = new ProjectCreationViewModel();
+
+            CreateProjectCommand = new RelayCommand(o =>
+            {
+                
+            });
         }
 
         public String ReadProjectRecord()
