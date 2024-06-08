@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\FileRecord.json" />
+    <None Remove="Resources\ProjectRecord.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\FileRecord.json" />
+    <EmbeddedResource Include="Resources\ProjectRecord.json" />
   </ItemGroup>
 
 </Project>

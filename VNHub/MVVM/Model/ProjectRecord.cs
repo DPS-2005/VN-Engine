@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace VNHub.MVVM.Model
 {
 	[JsonObject]
-    public class FileRecord
+    public class ProjectRecord
     {
-		private List<FileInfo> _files = new List<FileInfo>();
+		private List<Project> _projects = new List<Project>();
 
-		public List<FileInfo> Files
+		public List<Project> Projects
 		{
-			get { return _files; }
-			set { _files =  value; }
+			get { return _projects; }
+			set { _projects =  value; }
 		}
 	}
 }

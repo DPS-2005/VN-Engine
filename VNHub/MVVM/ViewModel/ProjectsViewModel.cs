@@ -9,31 +9,31 @@ namespace VNHub.MVVM.ViewModel
 {
     public class ProjectsViewModel : ObservableObject
     {
-        public ObservableCollection<FileInfo> Files;
+        public ObservableCollection<Project> Projects;
         
         public ProjectsViewModel()
         {
-            FileRecord? record = JsonConvert.DeserializeObject<FileRecord>(ReadFileRecord());
+            ProjectRecord? record = JsonConvert.DeserializeObject<ProjectRecord>(ReadProjectRecord());
             if(record != null)
             {
-                Files = new ObservableCollection<FileInfo>(record.Files);
+                Projects = new ObservableCollection<Project>(record.Projects);
             }
             else
             {
-                Files = new ObservableCollection<FileInfo>();
+                Projects = new ObservableCollection<Project>();
             }
         }
 
-        public String ReadFileRecord()
+        public String ReadProjectRecord()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var resourceStream = assembly?.GetManifestResourceStream("VNHub.Resources.FileRecord.json");
+            var resourceStream = assembly?.GetManifestResourceStream("VNHub.Resources.ProjectRecord.json");
             if(resourceStream != null)
             {
                 using (var reader = new StreamReader(resourceStream))
                 {
-                    String jsonFile = reader.ReadToEnd();
-                    return jsonFile;
+                    String jsonProject = reader.ReadToEnd();
+                    return jsonProject;
                 }
             }
             else
