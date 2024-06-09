@@ -19,6 +19,8 @@ namespace VNHub
         }
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+
+
             _navigationStore.CurrentVM = _navigationStore.ProjectVM;
             MainWindow = new MainWindow
             {

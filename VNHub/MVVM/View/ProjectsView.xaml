@@ -8,14 +8,6 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ui:ColorPaletteResources Accent="#FF0078D7" />
-                <ResourceDictionary Source="pack://application:,,,/ModernWpf;component/ControlsResources.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
@@ -37,9 +29,20 @@
             <Button Content="Create"
                     VerticalAlignment="Top"
                     Margin="5"
-                    Command="{Binding CreateProjectCommand, diag:PresentationTraceSources.TraceLevel=High}"
+                    Command="{Binding CreateProjectCommand}"
                     Style="{StaticResource AccentButtonStyle}"/>
         </StackPanel>
-        
+        <ListView ItemsSource="{Binding Projects}"
+                     Grid.Row="1">
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=Name}" 
+                                Header="Name" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding= "{Binding Path=Location}" 
+                                Header="Location" Width="Auto"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
     </Grid>
 </UserControl>
