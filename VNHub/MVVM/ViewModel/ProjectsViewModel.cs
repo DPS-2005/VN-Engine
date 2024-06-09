@@ -4,17 +4,23 @@ using VNHub.Core;
 using Newtonsoft.Json;
 using System.Reflection;
 using VNHub.MVVM.Model;
+using VNHub.Stores;
 
 namespace VNHub.MVVM.ViewModel
 {
     public class ProjectsViewModel : ObservableObject
     {
         public ObservableCollection<Project> Projects;
-        public ProjectCreationViewModel ProjectCreationVM { get; set; }
-        public RelayCommand CreateProjectCommand;
+
+        public RelayCommand CreateProjectCommand { get; set; }
         
-        public ProjectsViewModel()
+        public ProjectsViewModel(NavigationStore navigationStore)
         {
+            CreateProjectCommand = new RelayCommand(o =>
+            {
+                navigationStore.CurrentVM = navigationStore.ProjectCreationVM;
+            });
+
             ProjectRecord? record = JsonConvert.DeserializeObject<ProjectRecord>(ReadProjectRecord());
             if(record != null)
             {
@@ -24,13 +30,6 @@ namespace VNHub.MVVM.ViewModel
             {
                 Projects = new ObservableCollection<Project>();
             }
-
-            ProjectCreationVM = new ProjectCreationViewModel();
-
-            CreateProjectCommand = new RelayCommand(o =>
-            {
-                
-            });
         }
 
         public String ReadProjectRecord()

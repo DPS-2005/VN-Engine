@@ -4,49 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VNHub.Core;
+using VNHub.Stores;
 
 namespace VNHub.MVVM.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
-        public ProjectsViewModel ProjectVM { get; set; }
-        public LearnViewModel LearnVM { get; set; }
         public RelayCommand ProjectViewCommand { get; set; }
         public RelayCommand LearnViewCommand { get; set; }
 
-        private object _currentView;
+        private readonly NavigationStore _navigationStore;
+        public ObservableObject? CurrentViewModel => _navigationStore.CurrentVM;
 
-        public object CurrentView
+
+        public MainViewModel(NavigationStore navigationStore)
         {
-            get { return _currentView; }
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public MainViewModel()
-        {
-            // Constructing ViewModels
-            ProjectVM = new ProjectsViewModel();
-            LearnVM = new LearnViewModel();
-
-            // Default VM
-            _currentView = ProjectVM;
-
+            _navigationStore = navigationStore;
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             //RelayCommands
             ProjectViewCommand = new RelayCommand(o =>
             {
-                CurrentView = ProjectVM;
+                _navigationStore.CurrentVM = _navigationStore.ProjectVM;
             });
 
             LearnViewCommand = new RelayCommand(o =>
             {
-                CurrentView = LearnVM;
+                _navigationStore.CurrentVM = _navigationStore.LearnVM;
             });
 
+        }
+
+        private void OnCurrentViewModelChanged()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
     }
 }
