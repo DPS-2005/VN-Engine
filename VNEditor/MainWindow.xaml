@@ -3,10 +3,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VNEditor"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:local="clr-namespace:VNEditor" 
+        xmlns:view="clr-namespace:VNEditor.MVVM.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        Height="400"
+        Width="800"
+        WindowState="Maximized"
+        Background="#191919">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="File"/>
+            <MenuItem Header="Edit"/>
+            <MenuItem Header="Window"/>
+            <MenuItem Header="Help"/>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <view:SceneMakerView/>
+            <view:ExplorerView Grid.Column="1"/>
+        </Grid>
     </Grid>
 </Window>

@@ -31,6 +31,7 @@
                     Margin="5"
                     Command="{Binding CreateProjectCommand}"
                     Style="{StaticResource AccentButtonStyle}"/>
+            
         </StackPanel>
         <ListView ItemsSource="{Binding Projects}"
                      Grid.Row="1">
@@ -40,6 +41,18 @@
                                 Header="Name" Width="100"/>
                     <GridViewColumn DisplayMemberBinding= "{Binding Path=Location}" 
                                 Header="Location" Width="Auto"/>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="X"
+                                        Background="Transparent"
+                                        Command="{Binding DataContext.RemoveProjectCommand, 
+                                                        RelativeSource={RelativeSource FindAncestor, 
+                                                        AncestorType={x:Type local:ProjectsView}}}"
+                                        CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

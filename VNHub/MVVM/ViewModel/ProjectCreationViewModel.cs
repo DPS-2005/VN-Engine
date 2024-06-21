@@ -13,6 +13,7 @@ namespace VNHub.MVVM.ViewModel
     {
         public RelayCommand GoBackCommand { get; set; }
         public RelayCommand BrowseDialogCommand { get; set; }
+        public RelayCommand CreateCommand { get; set; }
 
         private String? _name;
 
@@ -46,6 +47,7 @@ namespace VNHub.MVVM.ViewModel
             {
                 navigationStore.CurrentVM = navigationStore.ProjectVM;
             });
+
             BrowseDialogCommand = new RelayCommand(o =>
             {
                 var browseDialog = new OpenFolderDialog
@@ -59,11 +61,14 @@ namespace VNHub.MVVM.ViewModel
                     if(result == true)
                     {
                         Location = browseDialog.FolderName;
-                        navigationStore.ProjectVM.Projects.Add(new Model.Project(Name, Location));
-                        navigationStore.ProjectVM.WriteProjectRecord();
                     }
                 }
             });
+
+            CreateCommand = new RelayCommand(o =>{
+                navigationStore.ProjectVM.AddProject(new Model.Project(Name, Location));
+            });
+
         }
     }
 }

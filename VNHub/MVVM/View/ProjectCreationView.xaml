@@ -52,6 +52,7 @@
                     Margin="10"/>
             <Button Content="Create"
                     Style="{StaticResource AccentButtonStyle}"
+                    Command="{Binding CreateCommand}"
                     HorizontalAlignment="Right"
                     Margin="10"/>       
         </StackPanel>

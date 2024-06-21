@@ -8,6 +8,7 @@ using VNHub.Stores;
 using System.Resources;
 using System.Diagnostics;
 using System.Text.Json.Nodes;
+using System.Collections.Specialized;
 
 namespace VNHub.MVVM.ViewModel
 {
@@ -16,6 +17,7 @@ namespace VNHub.MVVM.ViewModel
         public ObservableCollection<Project> Projects { get; set; }
 
         public RelayCommand CreateProjectCommand { get; set; }
+        public RelayCommand RemoveProjectCommand { get; set; }
 
         private readonly string _jsonFilePath = "projects.json";
 
@@ -33,6 +35,12 @@ namespace VNHub.MVVM.ViewModel
                 navigationStore.CurrentVM = navigationStore.ProjectCreationVM;
             });
 
+            RemoveProjectCommand = new RelayCommand(o =>
+            {
+                RemoveProject((Project)(o));
+            });
+
+            //initialise Projects Collection with contents of json file
             Projects = new ObservableCollection<Project>();
             ReadProjectRecord();
         }
@@ -54,6 +62,18 @@ namespace VNHub.MVVM.ViewModel
             {
                 Projects = new ObservableCollection<Project>();
             }
+        }
+
+        public void AddProject(Project project)
+        {
+            Projects.Add(project);
+            WriteProjectRecord();
+        }
+
+        public void RemoveProject(Project project)
+        {
+            Projects.Remove(project);
+            WriteProjectRecord();
         }
     }
 }
