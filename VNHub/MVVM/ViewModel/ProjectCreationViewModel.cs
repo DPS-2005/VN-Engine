@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,17 +57,27 @@ namespace VNHub.MVVM.ViewModel
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments),                
                 };
                 bool? result = browseDialog.ShowDialog();
-                if(result != null)
+                if(result != null && Name != null)
                 {
                     if(result == true)
                     {
-                        Location = browseDialog.FolderName;
+                        Location = Path.Combine(browseDialog.FolderName, Name);
                     }
                 }
             });
 
             CreateCommand = new RelayCommand(o =>{
-                navigationStore.ProjectVM.AddProject(new Model.Project(Name, Location));
+                if(Name != null && Location != null)
+                {
+                    navigationStore.ProjectVM.AddProject(new Model.Project(Name, Location));
+                    if (!Directory.Exists(Location))
+                    {
+                        Directory.CreateDirectory(Location);
+                        // creating dependency folders
+                        Directory.CreateDirectory(Path.Combine(Location, "Resources"));
+                    }
+                }
+
             });
 
         }

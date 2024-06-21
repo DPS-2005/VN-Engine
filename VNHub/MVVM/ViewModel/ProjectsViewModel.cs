@@ -37,6 +37,7 @@ namespace VNHub.MVVM.ViewModel
 
             RemoveProjectCommand = new RelayCommand(o =>
             {
+                if(o!=null)
                 RemoveProject((Project)(o));
             });
 

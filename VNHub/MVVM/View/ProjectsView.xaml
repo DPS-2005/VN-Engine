@@ -34,9 +34,9 @@
             
         </StackPanel>
         <ListView ItemsSource="{Binding Projects}"
-                     Grid.Row="1">
+                  Grid.Row="1">
             <ListView.View>
-                <GridView >
+                <GridView>
                     <GridViewColumn DisplayMemberBinding= "{Binding Path=Name}" 
                                 Header="Name" Width="100"/>
                     <GridViewColumn DisplayMemberBinding= "{Binding Path=Location}" 
@@ -55,6 +55,12 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
 
     </Grid>
