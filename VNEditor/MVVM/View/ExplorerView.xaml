@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:local="clr-namespace:VNEditor.MVVM.View"
+             xmlns:model="clr-namespace:VNEditor.MVVM.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
     <Grid>
@@ -13,16 +14,13 @@
                        Foreground="White" 
                        Margin="5"
                        FontSize="14"/>
-            <ListView Name="FileList"
-                      Margin="5"
-                      Grid.Column="1"
-                      ItemsSource="{Binding ProjectFiles}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <TreeView Name="ExplorerTree" LostFocus="TreeView_LostFocus" ItemsSource="{Binding Root.Children}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type model:ExplorerNode}" ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
         </StackPanel>
         
     </Grid>

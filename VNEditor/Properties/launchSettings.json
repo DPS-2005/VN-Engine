@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VNEditor": {
+      "commandName": "Project",
+      "commandLineArgs": "\"VNNew\"\r\n\"C:\\Users\\divya\\Downloads\\VNNew\""
+    }
+  }
+}
