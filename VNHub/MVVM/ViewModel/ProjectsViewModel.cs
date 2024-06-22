@@ -18,6 +18,7 @@ namespace VNHub.MVVM.ViewModel
 
         public RelayCommand CreateProjectCommand { get; set; }
         public RelayCommand RemoveProjectCommand { get; set; }
+        public RelayCommand LaunchEditorCommand { get; set; }
 
         private readonly string _jsonFilePath = "projects.json";
 
@@ -39,6 +40,15 @@ namespace VNHub.MVVM.ViewModel
             {
                 if(o!=null)
                 RemoveProject((Project)(o));
+            });
+
+            LaunchEditorCommand = new RelayCommand(o =>
+            {
+                if(o is Project project)
+                {
+                    String[] args = {project.Name, project.Location};
+                    Process.Start("VNEditor.exe", args);
+                }
             });
 
             //initialise Projects Collection with contents of json file
@@ -76,5 +86,6 @@ namespace VNHub.MVVM.ViewModel
             Projects.Remove(project);
             WriteProjectRecord();
         }
+
     }
 }

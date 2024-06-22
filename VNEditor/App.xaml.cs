@@ -1,7 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using VNEditor.MVVM.ViewModel;
 
 namespace VNEditor
@@ -12,7 +9,8 @@ namespace VNEditor
         {
             MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainViewModel(),
+                Title = e.Args[0]
             };
             MainWindow.Show();
         }

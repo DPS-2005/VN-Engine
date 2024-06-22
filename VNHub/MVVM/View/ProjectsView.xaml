@@ -31,37 +31,37 @@
                     Margin="5"
                     Command="{Binding CreateProjectCommand}"
                     Style="{StaticResource AccentButtonStyle}"/>
-            
+
         </StackPanel>
-        <ListView ItemsSource="{Binding Projects}"
+        <ItemsControl ItemsSource="{Binding Projects}"
                   Grid.Row="1">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding= "{Binding Path=Name}" 
-                                Header="Name" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding= "{Binding Path=Location}" 
-                                Header="Location" Width="Auto"/>
-                    <GridViewColumn Width="Auto">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="X"
-                                        Background="Transparent"
-                                        Command="{Binding DataContext.RemoveProjectCommand, 
-                                                        RelativeSource={RelativeSource FindAncestor, 
-                                                        AncestorType={x:Type local:ProjectsView}}}"
-                                        CommandParameter="{Binding}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Background="Transparent" 
+                            Command="{Binding DataContext.LaunchEditorCommand, 
+                            RelativeSource={RelativeSource FindAncestor, 
+                            AncestorType={x:Type local:ProjectsView}}}"
+                            CommandParameter="{Binding}"> 
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Location}"/>
+                            <Button Content="X"
+                                    Background="Transparent"
+                                    Command="{Binding DataContext.RemoveProjectCommand, 
+                                                    RelativeSource={RelativeSource FindAncestor, 
+                                                    AncestorType={x:Type local:ProjectsView}}}"
+                                    CommandParameter="{Binding}"/>  
+                        </StackPanel>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
                     <Setter Property="Cursor" Value="Hand"/>
-                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
                 </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
 
     </Grid>
 </UserControl>
