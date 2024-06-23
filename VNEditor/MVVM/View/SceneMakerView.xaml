@@ -18,7 +18,20 @@
         <Canvas Background="Gray" 
                 Grid.Column="1"
                 Margin="5">
-            
+            <ItemsControl ItemsSource="{Binding ImageList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding ImagePath}">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                        <TranslateTransform X="{Binding Transform.PosX}" Y="{Binding Transform.PosY}"/>
+                                    <RotateTransform Angle="{Binding Transform.Rotation}"/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Canvas>
     </Grid>
 </UserControl>

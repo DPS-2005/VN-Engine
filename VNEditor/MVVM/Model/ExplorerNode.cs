@@ -47,10 +47,10 @@ namespace VNEditor.MVVM.Model
 
 
 
-        public ExplorerNode(FileSystemInfo fileSystem, List<ExplorerNode>? children)
+        public ExplorerNode(FileSystemInfo itemInfo, List<ExplorerNode>? children)
         {
-            this.Name = fileSystem.Name;
-            this.ItemInfo = fileSystem;
+            _name = itemInfo.Name;
+            this.ItemInfo = itemInfo;
             this.Children = children;
             IsEditable = false;
             RenameCommand = new RelayCommand(o =>
@@ -60,7 +60,7 @@ namespace VNEditor.MVVM.Model
 
             FinishRenameCommand = new RelayCommand(o =>
             {
-                if(IsEditable)
+                if((ItemInfo.GetType() != typeof(FileInfo) || (Name.LastIndexOf('.') != -1 && Name.Remove(Name.LastIndexOf('.')) != null)))
                 {
                     IsEditable = false;
                     DirectoryInfo? parentDirectory = Directory.GetParent(ItemInfo.FullName);
@@ -80,15 +80,15 @@ namespace VNEditor.MVVM.Model
 
         public void Rename(String newPath)
         {
-            if(ItemInfo is DirectoryInfo dirItem)
+            if(ItemInfo is DirectoryInfo )
             {
-                Directory.Move(dirItem.FullName, newPath);
-                dirItem = new DirectoryInfo(newPath);
+                Directory.Move(ItemInfo.FullName, newPath);
+                ItemInfo = new DirectoryInfo(newPath);
             }
-            else if(ItemInfo is FileInfo fileItem)
+            else if(ItemInfo is FileInfo)
             {
-                File.Move(fileItem.FullName, newPath);
-                fileItem = new FileInfo(newPath);
+                File.Move(ItemInfo.FullName, newPath);
+                ItemInfo = new FileInfo(newPath);
             }
         }
     }

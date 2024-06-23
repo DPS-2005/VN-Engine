@@ -30,7 +30,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <view:SceneMakerView/>
+            <ContentControl Content="{Binding SceneMakerVM}"/>
             <ContentControl Grid.Column="1" Content="{Binding ExplorerVM}"/>
         </Grid>
     </Grid>
