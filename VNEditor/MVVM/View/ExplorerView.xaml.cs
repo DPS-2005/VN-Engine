@@ -24,14 +24,5 @@ namespace VNEditor.MVVM.View
         {
             InitializeComponent();
         }
-
-        private void TreeView_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TreeViewItem? selectedItem = ExplorerTree.ItemContainerGenerator.ContainerFromItem(ExplorerTree.SelectedItem) as TreeViewItem;
-            if(selectedItem != null)
-            {
-                selectedItem.IsSelected = false;
-            }
-        }
     }
 }

@@ -1,38 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using VNEditor.Core;
 
 namespace VNEditor.MVVM.Model
 {
     public class ExplorerNode : ObservableObject
     {
-        public NodeType Type;
-        private string _name;
+        public FileSystemInfo ItemInfo;
 
-        public string Name
+        private String _name;
+
+        public String Name
         {
             get { return _name; }
             set 
             { 
-                _name = value; 
+                _name = value;
                 OnPropertyChanged();
             }
         }
 
-        private string _path;
-
-        public string Path
-        {
-            get { return _path; }
-            set 
-            { 
-                _path = value;
-                OnPropertyChanged();
-            }
-        }
 
         private List<ExplorerNode>? _children;
 
@@ -45,13 +31,65 @@ namespace VNEditor.MVVM.Model
             }
         }
 
+        private bool _isEditable;
 
-        public ExplorerNode(NodeType type, string name, string path, List<ExplorerNode>? children)
+        public bool IsEditable
         {
-            this.Type = type;
-            this.Name = name;
-            this.Path = path;
+            get { return _isEditable; }
+            set { 
+                _isEditable = value; 
+                OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand RenameCommand { get; set; }
+        public RelayCommand FinishRenameCommand { get; set; }
+
+
+
+        public ExplorerNode(FileSystemInfo fileSystem, List<ExplorerNode>? children)
+        {
+            this.Name = fileSystem.Name;
+            this.ItemInfo = fileSystem;
             this.Children = children;
+            IsEditable = false;
+            RenameCommand = new RelayCommand(o =>
+            {
+                IsEditable = true;
+            });
+
+            FinishRenameCommand = new RelayCommand(o =>
+            {
+                if(IsEditable)
+                {
+                    IsEditable = false;
+                    DirectoryInfo? parentDirectory = Directory.GetParent(ItemInfo.FullName);
+                    if(parentDirectory != null)
+                    {
+                        String newPath = Path.Combine(parentDirectory.FullName, Name);
+                        Rename(newPath);
+                    }
+                    else
+                    {
+                        String newPath = Name;
+                        Rename(newPath);
+                    }
+                }
+            });
+        }
+
+        public void Rename(String newPath)
+        {
+            if(ItemInfo is DirectoryInfo dirItem)
+            {
+                Directory.Move(dirItem.FullName, newPath);
+                dirItem = new DirectoryInfo(newPath);
+            }
+            else if(ItemInfo is FileInfo fileItem)
+            {
+                File.Move(fileItem.FullName, newPath);
+                fileItem = new FileInfo(newPath);
+            }
         }
     }
 }

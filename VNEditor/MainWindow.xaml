@@ -12,7 +12,8 @@
         Height="400"
         Width="800"
         WindowState="Maximized"
-        Background="#191919">
+        Background="#191919"
+        MouseDown="Window_MouseDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

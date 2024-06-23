@@ -1,36 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using Microsoft.VisualBasic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using VNEditor.Core;
 using VNEditor.MVVM.Model;
 
 namespace VNEditor.MVVM.ViewModel
 {
-    public class ExplorerViewModel
+    public class ExplorerViewModel:ObservableObject
     {
-        public ExplorerNode Root { get; set; }
+        private ExplorerNode _root;
+
+        public ExplorerNode Root
+        {
+            get { return _root; }
+            set 
+            { 
+                _root = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ExplorerViewModel(DirectoryInfo ProjectDirectory)
         {
-            Root = new ExplorerNode(NodeType.FOLDER,ProjectDirectory.Name, ProjectDirectory.FullName, null);
+            Root = new ExplorerNode(ProjectDirectory, null);
             PopulateTree(Root);
-            Debug.Print("tree populated");
         }
-
         private void PopulateTree(ExplorerNode node)
         {
             List<ExplorerNode> fileNodes = new List<ExplorerNode>(
-                Directory.EnumerateFiles(node.Path).Select(
-                    file => new ExplorerNode(NodeType.FILE, Path.GetFileName(file), file, null)));
+                Directory.EnumerateFiles(node.ItemInfo.FullName).Select(
+                    filePath => new ExplorerNode(new FileInfo(filePath), null)));
 
             List<ExplorerNode> folderNodes = new List<ExplorerNode>(
-                Directory.EnumerateDirectories(node.Path).Select(
-                    folder => new ExplorerNode(NodeType.FOLDER, Path.GetFileName(folder), folder, null)));
+                Directory.EnumerateDirectories(node.ItemInfo.FullName).Select(
+                    folderPath => new ExplorerNode(new DirectoryInfo(folderPath), null)));
             node.Children = new List<ExplorerNode>(fileNodes.Concat(folderNodes));
 
             foreach(ExplorerNode folderNode in folderNodes)

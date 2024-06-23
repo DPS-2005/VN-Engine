@@ -4,20 +4,57 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:VNEditor.MVVM.View"
              xmlns:model="clr-namespace:VNEditor.MVVM.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
-    <Grid>
+    <Grid x:Name="ExplorerGrid" Focusable="True">
         <StackPanel>
             <TextBlock Text="Project Files"
                        Foreground="White" 
                        Margin="5"
                        FontSize="14"/>
-            <TreeView Name="ExplorerTree" LostFocus="TreeView_LostFocus" ItemsSource="{Binding Root.Children}">
+            <TreeView Name="ExplorerTree" ItemsSource="{Binding Root.Children}">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type model:ExplorerNode}" ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}" />
+                        <StackPanel>
+
+                            <TextBlock x:Name="Node" Text="{Binding Name}">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Rename" 
+                                                  Command="{Binding RenameCommand}"/>
+                                        <MenuItem Header="Delete"/>
+                                    </ContextMenu>
+                                </TextBlock.ContextMenu>
+                            </TextBlock>
+                            <TextBox Name="RenameBox"
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                     Visibility="Collapsed"
+                                     IsTabStop="True"/>       
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus" SourceName="RenameBox">
+                                    <i:InvokeCommandAction Command="{Binding FinishRenameCommand}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewLostKeyboardFocus" SourceName="RenameBox">
+                                    <i:InvokeCommandAction Command="{Binding FinishRenameCommand}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="LostKeyboardFocus" SourceName="RenameBox">
+                                    <i:InvokeCommandAction Command="{Binding FinishRenameCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsEditable}" Value="True">
+                                <Setter TargetName="Node" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="RenameBox" Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEditable}" Value="False">
+                                <Setter TargetName="Node" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="RenameBox" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
             </TreeView>
