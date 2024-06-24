@@ -5,27 +5,63 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VNEditor.MVVM.View"
              xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:viewModel="clr-namespace:VNEditor.MVVM.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Width="50">
-            
-        </StackPanel>
-        <Canvas Background="Gray" 
+        <TabControl Name ="ToolBar" 
+                    TabStripPlacement="Left"
+                    Margin="2"
+                    VerticalAlignment="Center">
+            <TabItem Cursor="Hand" local:ToolModeProperty.ToolValue="{x:Static viewModel:ToolMode.SELECT}">
+                <TabItem.Header>
+                    <icon:BoxIcons Kind="RegularPointer"/>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem Cursor="Hand" local:ToolModeProperty.ToolValue="{x:Static viewModel:ToolMode.MOVE}">
+                <TabItem.Header>
+                    <icon:BoxIcons Kind="RegularMove"/>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem Cursor="Hand" local:ToolModeProperty.ToolValue="{x:Static viewModel:ToolMode.ROTATE}">
+                <TabItem.Header>
+                    <icon:BoxIcons Kind="RegularRevision"/>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem  Cursor="Hand" local:ToolModeProperty.ToolValue="{x:Static viewModel:ToolMode.RESIZE}">
+                <TabItem.Header>
+                    <icon:BoxIcons Kind="RegularExpand"/>
+                </TabItem.Header>
+            </TabItem>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ChangeToolCommand}" 
+                                           CommandParameter="{Binding SelectedItem, ElementName=ToolBar}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TabControl>
+        <Canvas RenderTransformOrigin="0.5, 0.5"
+                Background="Gray" 
                 Grid.Column="1"
-                Margin="5">
+                Panel.ZIndex="0"
+                ClipToBounds="True"
+                Margin="10">
             <ItemsControl ItemsSource="{Binding ImageList}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding ImagePath}">
+                        <Image Source="{Binding ImagePath}" RenderTransformOrigin="0.5, 0.5">
                             <Image.RenderTransform>
                                 <TransformGroup>
-                                        <TranslateTransform X="{Binding Transform.PosX}" Y="{Binding Transform.PosY}"/>
-                                    <RotateTransform Angle="{Binding Transform.Rotation}"/>
+                                    <TranslateTransform X="{Binding Transform.PosX}" Y="{Binding Transform.PosY}"/>
+                                    <ScaleTransform ScaleX="{Binding Transform.ScaleX}" ScaleY="{Binding Transform.ScaleY}"/>
                                 </TransformGroup>
                             </Image.RenderTransform>
                         </Image>
