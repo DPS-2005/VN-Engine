@@ -6,13 +6,13 @@ namespace VNEditor
 {
     public partial class App : Application
     {
-        public DirectoryInfo ProjectDirectory;
+        private DirectoryInfo _projectDirectory;
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            ProjectDirectory = new DirectoryInfo(e.Args[1]);
+            _projectDirectory = new DirectoryInfo(e.Args[1]);
             MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel(this.ProjectDirectory),
+                DataContext = new MainViewModel(this._projectDirectory),
                 Title = e.Args[0]
             };
             MainWindow.Show();

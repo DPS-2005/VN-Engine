@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,8 @@ namespace VNEditor.MVVM.View
             ExplorerNode? node = fileNode?.DataContext as ExplorerNode;
             if(e.LeftButton == MouseButtonState.Pressed)
             {
-                DragDrop.DoDragDrop(fileNode, node?.ItemInfo, DragDropEffects.Copy);
+                if(node?.ItemInfo.GetType() == typeof(FileInfo))
+                    DragDrop.DoDragDrop(fileNode, node?.ItemInfo, DragDropEffects.Copy);
             }
         }
     }

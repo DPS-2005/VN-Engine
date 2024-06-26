@@ -25,16 +25,25 @@ namespace VNEditor.MVVM.View
         private void canvas_Drop(object sender, DragEventArgs e)
         {
             object data = e.Data.GetData(DataFormats.Serializable);
-            if(data is FileSystemInfo fileInfo)
+            Point dropPosition = e.GetPosition(canvas);
+            if (data is FileSystemInfo fileInfo)
             {
-                Point dropPosition = e.GetPosition(canvas);
-                BitmapImage bmp = new BitmapImage(new Uri(fileInfo.FullName));
-                Image image = new Image();
-                image.Source = bmp;
-                Canvas.SetLeft(image, dropPosition.X);
-                Canvas.SetTop(image, dropPosition.Y);
-                var vm = (SceneMakerViewModel)DataContext;
-                vm.ImageList.Add(image);
+                ImageData imgData = new ImageData(fileInfo.FullName, new TranslateTransform(dropPosition.X, dropPosition.Y));
+                SceneMakerViewModel? sceneMaker = DataContext as SceneMakerViewModel;
+                sceneMaker?.CurrentScene.Images.Add(imgData);
+            }
+            else if(data is Image image)
+            {
+                
+            }
+        }
+
+        private void Image_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                Image? image = sender as Image;
+                DragDrop.DoDragDrop(image, new DataObject(DataFormats.Serializable,image), DragDropEffects.Move);
             }
         }
     }

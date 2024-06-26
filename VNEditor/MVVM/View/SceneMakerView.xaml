@@ -50,8 +50,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TabControl>
-
-        <ItemsControl ItemsSource="{Binding ImageList}"
+        <ItemsControl ItemsSource="{Binding CurrentScene.Images}"
                       Grid.Column="1"
                       Margin="5"
                       Name="canvas"
@@ -64,15 +63,12 @@
                     <Canvas Background="Gray"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemContainerStyle>
-                <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding (Canvas.Left)}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding (Canvas.Top)}"/>
-                </Style>
-            </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Transform.ImagePath}"/>
+                    <Image Source="{Binding ImagePath}" 
+                           RenderTransformOrigin="0.5, 0.5" 
+                           RenderTransform="{Binding Transform}">
+                    </Image>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

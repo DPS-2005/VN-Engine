@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.IO;
+using System.Windows.Input;
 using VNEditor.Core;
 
 namespace VNEditor.MVVM.ViewModel
@@ -9,10 +10,16 @@ namespace VNEditor.MVVM.ViewModel
         public ExplorerViewModel ExplorerVM { get; set; }
         public SceneMakerViewModel SceneMakerVM { get; set; }
 
-        public MainViewModel(DirectoryInfo ProjectDirectory)
+        public RelayCommand SaveCommand { get; set; }
+
+        public MainViewModel(DirectoryInfo projectDirectory)
         {
-            ExplorerVM = new ExplorerViewModel(ProjectDirectory);
-            SceneMakerVM = new SceneMakerViewModel(ProjectDirectory);
+            ExplorerVM = new ExplorerViewModel(projectDirectory);
+            SceneMakerVM = new SceneMakerViewModel(projectDirectory);
+            SaveCommand = new RelayCommand(o =>
+            {
+                SceneMakerVM.SaveData();
+            });
         }
         
     }

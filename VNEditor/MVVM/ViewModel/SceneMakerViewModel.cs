@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -23,15 +24,18 @@ namespace VNEditor.MVVM.ViewModel
     }
     public class SceneMakerViewModel
     {
-        
-        public ObservableCollection<Image> ImageList { get; set; }
+        public Scene CurrentScene { get; set; }
+        public ObservableCollection<Scene> Scenes { get; set; }
         public ToolMode Mode { get; set; }
         public RelayCommand ChangeToolCommand { get; set; }
 
-        public SceneMakerViewModel(DirectoryInfo ProjectDirectory)
+        private readonly String _savePath = "";
+
+        public SceneMakerViewModel(DirectoryInfo projectDirectory)
         {
+            _savePath = Path.Combine(projectDirectory.FullName, "Resources", "savedata.json");
             Mode = ToolMode.SELECT;
-            ImageList = new ObservableCollection<Image>();
+            LoadData();
             ChangeToolCommand = new RelayCommand(o =>
             {
                 if(o is TabItem item)
@@ -39,6 +43,30 @@ namespace VNEditor.MVVM.ViewModel
                     Mode = ToolModeProperty.GetToolValue(item);
                 }
             });
+        }
+
+        public void LoadData()
+        {
+            String json = File.ReadAllText(_savePath);
+            IList<Scene>? data = JsonConvert.DeserializeObject<IList<Scene>>(json);
+            if(data != null && data.Count > 0)
+            {
+                Scenes = new ObservableCollection<Scene>(data);
+                CurrentScene = Scenes[Scenes.Count - 1];
+            }
+            else
+            {
+                Scenes = new ObservableCollection<Scene>();
+                CurrentScene = new Scene();
+                Scenes.Add(CurrentScene);
+                SaveData();
+            }
+        }
+
+        public void SaveData()
+        {
+            string json = JsonConvert.SerializeObject(Scenes, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            File.WriteAllText(_savePath, json);
         }
     }
 }

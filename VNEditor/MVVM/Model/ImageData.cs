@@ -1,4 +1,5 @@
-﻿using System.Security.Permissions;
+﻿using System.IO;
+using System.Security.Permissions;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -8,18 +9,13 @@ namespace VNEditor.MVVM.Model
     public class ImageData
     {
         public string ImagePath { get; set; }
-        public ImageTransform Transform { get; set; }
+        public TranslateTransform Transform { get; set; }
 
-        public ImageData(string path)
+        public ImageData(string imagePath, TranslateTransform transform)
         {
-            ImagePath = path;
-            Transform = new ImageTransform();
-        }
-        public ImageData(String path, ImageTransform transform)
-        {
-            ImagePath = path;
+            ImagePath = imagePath;
             Transform = transform;
-        }       
+        }
     }
 
 }

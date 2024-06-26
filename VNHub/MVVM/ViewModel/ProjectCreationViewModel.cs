@@ -75,6 +75,7 @@ namespace VNHub.MVVM.ViewModel
                         Directory.CreateDirectory(Location);
                         // creating dependency folders
                         Directory.CreateDirectory(Path.Combine(Location, "Resources"));
+                        File.Create(Path.Combine(Location, "Resources", "savedata.json"));
                     }
                 }
 

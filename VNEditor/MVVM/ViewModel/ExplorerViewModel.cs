@@ -21,9 +21,9 @@ namespace VNEditor.MVVM.ViewModel
             }
         }
 
-        public ExplorerViewModel(DirectoryInfo ProjectDirectory)
+        public ExplorerViewModel(DirectoryInfo projectDirectory)
         {
-            Root = new ExplorerNode(ProjectDirectory, null);
+            Root = new ExplorerNode(projectDirectory, null);
             PopulateTree(Root);
         }
         private void PopulateTree(ExplorerNode node)
