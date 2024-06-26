@@ -15,7 +15,6 @@ namespace VNEditor.MVVM.Model
             ImagePath = path;
             Transform = new ImageTransform();
         }
-
         public ImageData(String path, ImageTransform transform)
         {
             ImagePath = path;

@@ -3,17 +3,81 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VNEditor.Core;
 
 namespace VNEditor.MVVM.Model
 {
-    public class ImageTransform
+    public class ImageTransform : ObservableObject
     {
-        public double PosX { get; set; }
-        public double PosY { get; set; }
-        public int ZIndex { get; set; }
-        public double Rotation { get; set; }
-        public double ScaleX { get; set; }
-        public double ScaleY { get; set; }
+        private double _posX;
+
+        public double PosX
+        {
+            get { return _posX; }
+            set 
+            { 
+                _posX = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _posY;
+
+        public double PosY
+        {
+            get { return _posY; }
+            set 
+            {
+                _posY = value;
+                OnPropertyChanged(); 
+            }
+        }
+
+        private int _zIndex;
+
+        public int ZIndex
+        {
+            get { return _zIndex; }
+            set 
+            {
+                _zIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _rotation;
+
+        public double Rotation
+        {
+            get { return _rotation; }
+            set
+            {
+                _rotation = value;
+                OnPropertyChanged();
+            }
+        }
+        private double _scaleX;
+
+        public double ScaleX
+        {
+            get { return _scaleX; }
+            set
+            {
+                _scaleX = value;
+                OnPropertyChanged();
+            }
+        }
+        private double _scaleY;
+
+        public double ScaleY
+        {
+            get { return _scaleY; }
+            set
+            {
+                _scaleY = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         public ImageTransform()

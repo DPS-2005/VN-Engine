@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VNEditor.MVVM.Model;
 
 namespace VNEditor.MVVM.View
 {
@@ -23,6 +24,16 @@ namespace VNEditor.MVVM.View
         public ExplorerView()
         {
             InitializeComponent();
+        }
+
+        private void Node_MouseMove(object sender, MouseEventArgs e)
+        {
+            TextBlock? fileNode = sender as TextBlock;
+            ExplorerNode? node = fileNode?.DataContext as ExplorerNode;
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(fileNode, node?.ItemInfo, DragDropEffects.Copy);
+            }
         }
     }
 }

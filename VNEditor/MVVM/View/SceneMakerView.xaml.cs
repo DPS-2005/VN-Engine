@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HandyControl.Tools.Extension;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using VNEditor.MVVM.Model;
 using VNEditor.MVVM.ViewModel;
 
 namespace VNEditor.MVVM.View
@@ -25,6 +20,22 @@ namespace VNEditor.MVVM.View
         public SceneMakerView()
         {
             InitializeComponent();
+        }
+
+        private void canvas_Drop(object sender, DragEventArgs e)
+        {
+            object data = e.Data.GetData(DataFormats.Serializable);
+            if(data is FileSystemInfo fileInfo)
+            {
+                Point dropPosition = e.GetPosition(canvas);
+                BitmapImage bmp = new BitmapImage(new Uri(fileInfo.FullName));
+                Image image = new Image();
+                image.Source = bmp;
+                Canvas.SetLeft(image, dropPosition.X);
+                Canvas.SetTop(image, dropPosition.Y);
+                var vm = (SceneMakerViewModel)DataContext;
+                vm.ImageList.Add(image);
+            }
         }
     }
     public static class ToolModeProperty
@@ -44,16 +55,30 @@ namespace VNEditor.MVVM.View
             DependencyProperty.RegisterAttached("ToolValue", typeof(ToolMode), typeof(object), new PropertyMetadata(ToolMode.SELECT));
     }
 
-    public class CenterXConverter : IValueConverter
+    public class XConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            
+            return (double)values[0];
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
     }
+
+    public class YConverter : IMultiValueConverter
+    {
+        public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return -(double)value[0];
+        }
+
+        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

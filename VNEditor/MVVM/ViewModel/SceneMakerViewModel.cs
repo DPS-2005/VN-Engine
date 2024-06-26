@@ -24,19 +24,14 @@ namespace VNEditor.MVVM.ViewModel
     public class SceneMakerViewModel
     {
         
-        public ObservableCollection<ImageData> ImageList { get; set; }
+        public ObservableCollection<Image> ImageList { get; set; }
         public ToolMode Mode { get; set; }
         public RelayCommand ChangeToolCommand { get; set; }
 
         public SceneMakerViewModel(DirectoryInfo ProjectDirectory)
         {
             Mode = ToolMode.SELECT;
-            ImageList = new ObservableCollection<ImageData>();
-            //temperory code for testing
-            string imgPath1 = "C:\\Users\\divya\\Downloads\\VNNew\\Resources\\Images\\shot.png";
-            string imgPath2 = "C:\\Users\\divya\\Downloads\\VNNew\\Resources\\Images\\ss.png";
-            ImageList.Add(new ImageData(imgPath1));
-            ImageList.Add(new ImageData(imgPath2));
+            ImageList = new ObservableCollection<Image>();
             ChangeToolCommand = new RelayCommand(o =>
             {
                 if(o is TabItem item)

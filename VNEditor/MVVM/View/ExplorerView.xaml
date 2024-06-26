@@ -19,8 +19,7 @@
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type model:ExplorerNode}" ItemsSource="{Binding Children}">
                         <StackPanel>
-
-                            <TextBlock x:Name="Node" Text="{Binding Name}">
+                            <TextBlock x:Name="Node" Text="{Binding Name}" MouseMove="Node_MouseMove">
                                 <TextBlock.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Rename" 
