@@ -1,13 +1,6 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace VNEditor
 {
@@ -21,9 +14,19 @@ namespace VNEditor
             InitializeComponent();
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Keyboard.ClearFocus();
+            UIElement? element = Keyboard.FocusedElement as UIElement;
+            if(element is TextBox tb)
+            {
+                FrameworkElement parent = (FrameworkElement)tb.Parent;
+                while (parent != null && parent is IInputElement && !((IInputElement)parent).Focusable)
+                {
+                    parent = (FrameworkElement)parent.Parent;
+                }
+                DependencyObject scope = FocusManager.GetFocusScope(tb);
+                FocusManager.SetFocusedElement(scope, parent as IInputElement);
+            }
         }
     }
 }

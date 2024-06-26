@@ -28,7 +28,8 @@ namespace VNEditor.MVVM.View
             Point dropPosition = e.GetPosition(canvas);
             if (data is FileSystemInfo fileInfo)
             {
-                ImageData imgData = new ImageData(fileInfo.FullName, new TranslateTransform(dropPosition.X, dropPosition.Y));
+                ImageTransform transform = new ImageTransform(dropPosition.X, dropPosition.Y);
+                ImageData imgData = new ImageData(fileInfo.FullName, transform);
                 SceneMakerViewModel? sceneMaker = DataContext as SceneMakerViewModel;
                 sceneMaker?.CurrentScene.Images.Add(imgData);
             }
@@ -64,29 +65,24 @@ namespace VNEditor.MVVM.View
             DependencyProperty.RegisterAttached("ToolValue", typeof(ToolMode), typeof(object), new PropertyMetadata(ToolMode.SELECT));
     }
 
-    public class XConverter : IMultiValueConverter
+    public class TransformConverter : IValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)values[0];
+            ImageTransform? transform = value as ImageTransform;
+            if (transform != null)
+                return new MatrixTransform(1, 0, 0, 1, transform.PosX, transform.PosY);
+            else
+                return new MatrixTransform(1, 0, 0, 1, 0, 0);
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class YConverter : IMultiValueConverter
-    {
-        public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return -(double)value[0];
-        }
-
-        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
+            MatrixTransform? transform = value as MatrixTransform;
+            if (transform != null)
+                return new ImageTransform(transform.Matrix.OffsetX, transform.Matrix.OffsetY);
+            else
+                return new ImageTransform();
         }
     }
 

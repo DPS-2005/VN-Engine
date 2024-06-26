@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Input;
 using VNEditor.Core;
 
@@ -20,6 +19,11 @@ namespace VNEditor.MVVM.ViewModel
             {
                 SceneMakerVM.SaveData();
             });
+        }
+
+        public void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SceneMakerVM.SaveData();
         }
         
     }

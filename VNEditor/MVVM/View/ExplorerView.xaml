@@ -36,12 +36,6 @@
                                 <i:EventTrigger EventName="LostFocus" SourceName="RenameBox">
                                     <i:InvokeCommandAction Command="{Binding FinishRenameCommand}"/>
                                 </i:EventTrigger>
-                                <i:EventTrigger EventName="PreviewLostKeyboardFocus" SourceName="RenameBox">
-                                    <i:InvokeCommandAction Command="{Binding FinishRenameCommand}"/>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="LostKeyboardFocus" SourceName="RenameBox">
-                                    <i:InvokeCommandAction Command="{Binding FinishRenameCommand}"/>
-                                </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </StackPanel>
                         <DataTemplate.Triggers>

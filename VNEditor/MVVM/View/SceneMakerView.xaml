@@ -11,8 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <local:XConverter x:Key="xConverter"/>
-        <local:YConverter x:Key="yConverter"/>
+        <local:TransformConverter x:Key="transformConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -67,7 +66,7 @@
                 <DataTemplate>
                     <Image Source="{Binding ImagePath}" 
                            RenderTransformOrigin="0.5, 0.5" 
-                           RenderTransform="{Binding Transform}">
+                           RenderTransform="{Binding Transform, Converter={StaticResource transformConverter}}">
                     </Image>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
